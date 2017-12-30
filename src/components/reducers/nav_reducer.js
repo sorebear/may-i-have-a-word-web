@@ -1,7 +1,7 @@
 import types from "../actions/types";
 
 const INITIAL_STATE = {
-    currentNavPath: "home",
+    currentNavPath: "writing",
     currentStory: "untitled"
 }
 
