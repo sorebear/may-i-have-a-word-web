@@ -10,6 +10,10 @@ class TextArea extends Component {
         }
     }
 
+    // Change the Textarea back to one input
+    // Everytime text is modified by javascript, first get 'selectionStart' and 'selectionEnd'
+    // Reset the the selectionStart and selectionEnd to the saved values after modifiction
+
     addDomReference(index) {
         this.props.setDomReference(document.getElementById(`textarea-${index}`), index)
     }
@@ -35,10 +39,6 @@ class TextArea extends Component {
 
     renderTextAreaArray() {
         return this.props.textAreaArray.map((item, index) => {
-            // if (!item.el) {
-            //     this.addDomReference(index);
-            //     console.log(`Item number ${index} does not have a DOM reference.`);
-            // }
             return (
                 <textarea
                     id={`textarea-${index}`}
