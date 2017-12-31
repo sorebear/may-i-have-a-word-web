@@ -5,14 +5,15 @@
 }
 
 ::-webkit-scrollbar {
-    display: none;
+    /* display: none; */
 }
 
-textarea br {
-    padding-bottom: 1rem;
+br {
+    content: '';
+    padding-bottom: 5rem;
 }
 
 body {
-    font-size: 62.5%;
+    font-size: 0;
     box-sizing: border-box;
 }

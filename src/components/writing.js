@@ -6,7 +6,7 @@ class Writing extends Component {
     render() {
         return(
             <div className="container">
-                <TextArea/>
+                <TextArea />
             </div>
         ) 
     }

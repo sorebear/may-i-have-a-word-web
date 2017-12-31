@@ -1,88 +1,69 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { letterTyped, setDomReference, createNewTextArea } from '../actions';
+import { letterTyped } from '../actions';
 
 class TextArea extends Component {
+    constructor(props) {
+        super(props);
+        this.domElement = null;
+    }
 
     componentDidMount() {
-        for (let index = 0; index < this.props.textAreaArray.length; index++) {
-            this.addDomReference(index);
-        }
+        this.domElement = document.getElementById('textarea');
     }
 
     // Change the Textarea back to one input
     // Everytime text is modified by javascript, first get 'selectionStart' and 'selectionEnd'
     // Reset the the selectionStart and selectionEnd to the saved values after modifiction
 
-    addDomReference(index) {
-        this.props.setDomReference(document.getElementById(`textarea-${index}`), index)
+    handleKeyPress(e) {
+        this.props.letterTyped(e.target.value);
     }
 
-    handleKeyPress(e, index) {
-        this.props.letterTyped(e.target.value, index);
-    }
-
-    handleReturn(e, index) {
-        e.preventDefault();
+    handleReturn(e) {
+        const { text } = this.props;
+        const cursorLocation = this.domElement.selectionEnd;
         if (e.keyCode === 13 || e.which === 13) {
-            e.preventDefault();
-            this.props.createNewTextArea(index);
+            const modText = 
+                text.slice(0, cursorLocation) + '\n    ' +
+                text.slice(cursorLocation);
+            this.props.letterTyped(modText);
+            setTimeout(() => {
+                this.domElement.selectionEnd = cursorLocation + 5;
+            }, 2000)
+            
         }
-    }
-
-    calculateRows(index) {
-        if (this.props.textAreaArray[index].el) {
-            return this.props.textAreaArray[index].el.scrollHeight / 39
-        }
-        return 1;
-    }
-
-    renderTextAreaArray() {
-        return this.props.textAreaArray.map((item, index) => {
-            return (
-                <textarea
-                    id={`textarea-${index}`}
-                    key={index}
-                    rows={this.calculateRows(index)}
-                    style={styles.textAreaStyle}
-                    value={ item.text }
-                    onChange={(e) => this.handleKeyPress(e, index)}
-                    onKeyUp={(e) => this.handleReturn(e, index)}
-                >
-                </textarea>
-            )
-        })
     }
 
     render() {
         console.log("Props at Render", this.props);
         return (
-            <div>
-                {this.renderTextAreaArray()}
-                <textarea>
-                
-                </textarea>
-            </div>
+            <textarea
+                id='textarea'
+                style={styles.textAreaStyle}
+                value={ this.props.text }
+                onChange={(e) => this.handleKeyPress(e)}
+                onKeyUp={(e) => this.handleReturn(e)}
+            ></textarea>
         )
     }
 }
 
 const mapStateToProps = state => {
-    const { textAreaArray } = state.text;
-    return { textAreaArray };
+    const { text } = state.text;
+    return { text };
 }
 
-export default connect(mapStateToProps, { letterTyped, setDomReference, createNewTextArea })(TextArea);
+export default connect(mapStateToProps, { letterTyped })(TextArea);
 
 const styles = {
     textAreaStyle: {
-        height: "unset",
+        height: "100vh",
         padding: "0 .5rem",
         fontSize: "1.8rem",
         backgroundColor: "#eee",
         border: "none",
         outline: "none",
         resize: "none",
-
     }
 }
