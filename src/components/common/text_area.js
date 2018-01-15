@@ -9,56 +9,54 @@ class TextArea extends Component {
     }
 
     componentDidMount() {
-        this.domElement = document.getElementById('textarea');
+        const { number } = this.props;
+        this.domElement = document.getElementById(`textarea-${number}`);
     }
 
-    // Change the Textarea back to one input
-    // Everytime text is modified by javascript, first get 'selectionStart' and 'selectionEnd'
-    // Reset the the selectionStart and selectionEnd to the saved values after modifiction
-
     handleKeyPress(e) {
-        this.props.letterTyped(e.target.value);
+        this.props.letterTyped(e.target.value, this.props.number);
     }
 
     handleReturn(e) {
-        const { text } = this.props;
-        const cursorLocation = this.domElement.selectionEnd;
         if (e.keyCode === 13 || e.which === 13) {
+            e.preventDefault();
+            const { text } = this.props;
+            const cursorLocation = this.domElement.selectionEnd;
             const modText = 
-                text.slice(0, cursorLocation) + '\n    ' +
+                text.slice(0, cursorLocation) + '\n\n    ' +
                 text.slice(cursorLocation);
-            this.props.letterTyped(modText);
+            this.props.letterTyped(modText, this.props.number);
             setTimeout(() => {
-                this.domElement.selectionEnd = cursorLocation + 5;
-            }, 2000)
-            
-        }
+                this.domElement.selectionEnd = cursorLocation + 6;
+            }, 250)
+        } 
     }
 
     render() {
-        console.log("Props at Render", this.props);
+        console.log("Text at Props", this.props);
+        const { number, activeText } = this.props;
         return (
             <textarea
-                id='textarea'
+                id={`textarea-${number}`}
                 style={styles.textAreaStyle}
-                value={ this.props.text }
+                value={activeText[`textArea${number}`].text }
                 onChange={(e) => this.handleKeyPress(e)}
-                onKeyUp={(e) => this.handleReturn(e)}
+                onKeyDown={(e) => this.handleReturn(e)}
             ></textarea>
         )
     }
 }
 
 const mapStateToProps = state => {
-    const { text } = state.text;
-    return { text };
+    const { activeText } = state.text;
+    return { activeText };
 }
 
 export default connect(mapStateToProps, { letterTyped })(TextArea);
 
 const styles = {
     textAreaStyle: {
-        height: "100vh",
+        height: "100%",
         padding: "0 .5rem",
         fontSize: "1.8rem",
         backgroundColor: "#eee",

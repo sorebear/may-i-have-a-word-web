@@ -14,9 +14,17 @@ export const storyChanged = newStory => {
     }
 }
 
-export const letterTyped = newText => {
+export const letterTyped = (newText, textAreaNum) => {
     return {
         type: types.ON_KEY_DOWN,
-        payload: newText
+        payload: { newText, textAreaNum }
     }
 }
+
+export const titleChanged = (newTitle, textAreaNum) => {
+    return {
+        type: types.CHANGE_TITLE,
+        payload: { newTitle, textAreaNum }
+    }
+}
+
