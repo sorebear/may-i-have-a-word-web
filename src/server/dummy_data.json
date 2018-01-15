@@ -1,0 +1,17 @@
+{
+    "user": "Soren Baird",
+    "Stories": [
+        {
+            "Title": "A Brief History of Teleportation",
+            "Chapters": {
+                "An Introduction": "Fate is for the unimaginative or the weak"
+            }
+        },
+        {
+            "Title": "Fail at Failing",
+            "Chapters": {
+                "Nice Guys Finish Last": "There is something I have grown tired of hearing"
+            }
+        }
+    ]
+}

@@ -17,8 +17,8 @@ class Home extends Component {
                         <Button link="sign_in" content="Sign In"/>
                     </div>
                 </header>
-                <div style={ styles.bodyStyle }>`
-                </div>`
+                <div style={ styles.bodyStyle }>
+                </div>
             </div>
         )
     }

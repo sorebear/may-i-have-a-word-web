@@ -14,29 +14,17 @@ export const storyChanged = newStory => {
     }
 }
 
-export const letterTyped = (newText, index) => {
+export const letterTyped = (newText, textAreaNum) => {
     return {
         type: types.ON_KEY_DOWN,
-        payload: {
-            text: newText,
-            index: index
-        }
+        payload: { newText, textAreaNum }
     }
 }
 
-export const setDomReference = (element, index) => {
+export const titleChanged = (newTitle, textAreaNum) => {
     return {
-        type: types.SET_DOM_REFERENCE,
-        payload: {
-            el: element,
-            index: index
-        }
+        type: types.CHANGE_TITLE,
+        payload: { newTitle, textAreaNum }
     }
 }
 
-export const createNewTextArea = index => {
-    return {
-        type: types.CREATE_NEW_TEXT_AREA,
-        payload: index
-    }
-}
